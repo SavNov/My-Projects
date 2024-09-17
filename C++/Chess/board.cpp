@@ -11,6 +11,16 @@ void printPiece(char piece) {
     }
 }
 
+char printBoard(const char board) {
+  std::cout << "Chess Board:\n";
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col < COLS; ++col) {
+            printPiece(board[row][col]);
+        }
+        std::cout << "\n";
+    }
+
+}
 int main() {
     // Create the chess board array
     char board[ROWS][COLS] = {
