@@ -1,7 +1,10 @@
 #include <stdio.h>
-
+#include <time.h>
+#include <stdlib.h>
 int main(void) {
-  int num = 12;
+  srand(time(NULL));
+
+  int num = rand() % 200 + 1;
   int guess;
   int * userguess = &guess;
   scanf("%i", userguess);
