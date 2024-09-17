@@ -4,6 +4,13 @@
 const int ROWS = 8;
 const int COLS = 8;
 
+void printPiece(char piece) {
+    switch (piece) {
+        case ' ': std::cout << "  "; break;
+        default: std::cout << piece;
+    }
+}
+
 int main() {
     // Create the chess board array
     char board[ROWS][COLS] = {
@@ -21,8 +28,7 @@ int main() {
     std::cout << "Chess Board:\n";
     for (int row = 0; row < ROWS; ++row) {
         for (int col = 0; col < COLS; ++col) {
-            std::cout << std::setw(2) << std::setfill(' ') 
-                      << (board[row][col] ? static_cast<char>(board[row][col]) : "  ");
+            printPiece(board[row][col]);
         }
         std::cout << "\n";
     }
