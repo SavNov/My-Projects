@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 typedef uint64_t Bitboard; // Represents entire chess board.
 #define A1 0
 #define A2 1
@@ -67,16 +68,24 @@ typedef uint64_t Bitboard; // Represents entire chess board.
 #define H7 62
 #define H8 63
 
-void print_binary(int n) {
-  int i;
-  for (i = 7; i >= 0; --i) {
-    printf("%d", (n >> i & 1));
+int get_bit(const Bitboard *board, const Bitboard position) {
+  if (board ^ position == 1) {
+    return 0;
   }
-  printf(" \n");
+  return 1;
 }
+int set_bit(const Bitboard *board, const Bitboard position, int value) {
+  if (get_bit(board, position) == value) {
+    return 1;
+  }
+  board = board ^ (1 << position);
+  return 1;
+}
+Bitboard a7 = 64;
 Bitboard empty_board = 1;
 int main(void) {
   Bitboard empty = 0;
   Bitboard *ptr_empty = &empty;
+  printf("%lu", a7);
 }
 
