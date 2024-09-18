@@ -1,58 +1,82 @@
-#include <iostream>
-#include <vector>
-#include <cstdlib>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdbool.h>
+typedef uint64_t Bitboard; // Represents entire chess board.
+#define A1 0
+#define A2 1
+#define A3 2
+#define A4 3
+#define A5 4
+#define A6 5
+#define A7 6
+#define A8 7
+#define B1 8
+#define B2 9
+#define B3 10
+#define B4 11
+#define B5 12
+#define B6 13
+#define B7 14
+#define B8 15
+#define C1 16
+#define C2 17
+#define C3 18
+#define C4 19
+#define C5 20
+#define C6 21
+#define C7 22
+#define C8 23
+#define D1 24
+#define D2 25
+#define D3 26
+#define D4 27
+#define D5 28
+#define D6 29
+#define D7 30
+#define D8 31
+#define E1 32
+#define E2 33
+#define E3 34
+#define E4 35
+#define E5 36
+#define E6 37
+#define E7 38
+#define E8 39
+#define F1 40
+#define F2 41
+#define F3 42
+#define F4 43
+#define F5 44
+#define F6 45
+#define F7 46
+#define F8 47
+#define G1 48
+#define G2 49
+#define G3 50
+#define G4 51
+#define G5 52
+#define G6 53
+#define G7 54
+#define G8 55
+#define H1 56
+#define H2 57
+#define H3 58
+#define H4 59
+#define H5 60
+#define H6 61
+#define H7 62
+#define H8 63
 
-const int CELL_SIZE = 5;
-
-void printBoard(const std::vector<std::string>& board)
-{
-    for (int y = 0; y < 8; ++y) {
-        if (y % 2 == 0) // Black rows
-            std::cout << "+---+---+---+---+---+---+---+---+\n";
-        else // White rows
-            std::cout << "|   |   |   |   |   |   |   |   |\n";
-
-        for (int x = 0; x < 8; ++x) {
-            if (x % 2 == 0)
-                std::cout << "| " << board[y][x] << " "; // Print ASCII character representing the square.
-            else
-                std::cout << "|" << board[y][x] << " ";   // Print ASCII character and add a newline for white spaces.
-        }
-        std::cout << "|\n";
-    }
+void print_binary(int n) {
+  int i;
+  for (i = 7; i >= 0; --i) {
+    printf("%d", (n >> i & 1));
+  }
+  printf(" \n");
+}
+Bitboard empty_board = 1;
+int main(void) {
+  Bitboard empty = 0;
+  Bitboard *ptr_empty = &empty;
 }
 
-void createBoard(std::vector<std::string>& board)
-{
-    // Initialize the board with empty squares.
-    for (int y = 0; y < 8; ++y) {
-        std::string row;
-        for (int x = 0; x < 8; ++x)
-            row += ' ';
-        board.push_back(row);
-    }
-
-    // Add black pieces to the top of the board.
-    int pieceSize = CELL_SIZE * 2 - 1;
-    board[0][3] = 'R'; // Rook
-    board[0][4] = 'N'; // Knight
-    board[0][5] = 'B'; // Bishop
-    board[0][6] = 'Q'; // Queen
-    board[0][7] = 'K'; // King
-
-    // Add white pieces to the bottom of the board.
-    for (int i = 7; i >= 4 && i > 0; --i) {
-        int piecePositions[][2] = {{1, i}, {6, i}, {3, i + 1}, {5, i + 1}};
-        for (auto position : piecePositions)
-            board[7 - i][position[0]] = toupper(position[1]); // Add pawns, rooks, knights, and a king.
-    }
-}
-
-int main()
-{
-    std::vector<std::string> board;
-    createBoard(board);
-    printBoard(board);
-
-    return 0;
-}
