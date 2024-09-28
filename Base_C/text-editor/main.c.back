@@ -1,5 +1,3 @@
-#include <string.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -74,18 +72,7 @@ void end(void) {
   sleep(1);
   endwin();
 }
-int main(int argc, char **argv) {
-  char *file = argv[1];
-  printf("%s\n", file);
-  FILE *fptr;
-  if ((fptr = fopen(file, "r")) != NULL) {
-    buffer buf;
-    start(&buf);
-    char line[150];
-    while (fgets(line, sizeof(line), fptr) != NULL) {
-      buf.newline(line);
-    }
-  }
+int main(void) {
   initscr();
 
   move(5, 10);
@@ -103,18 +90,10 @@ int main(int argc, char **argv) {
   char user = getch();
   if (user == 'q') {
     end();
-    fclose(fptr);
     return 0;
   }
   getch();
   endwin();
-  fclose(fptr);
-  fptr = fopen(file, "a");
-  for (int i = 0; i < buf.length; i++) {
-    fprintf(fptr, "%s\n", buf.lines[i]);
-  }
-  free_buf(&buf);
 
-  fclose(fptr);
   return 0;
 }
