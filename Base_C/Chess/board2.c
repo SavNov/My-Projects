@@ -1,20 +1,8 @@
 #include <stdio.h>
+#include "backend.h"
+#include "game.h"
 #include <stdlib.h>
 
-typedef struct Game {
-  int board[8][8];
-  void (*make_move)(struct Game *ptr_Game);
-  int move;
-  int player;
-} Game;
-typedef struct Pos {
-  int row;
-  int col;
-} Pos;
-void make_move(Game *ptr_Game, Pos pos1, Pos pos2);
-void test_make_move(Game *ptr_Game, Pos pos1, Pos pos2);
-int is_valid(Game *ptr_Game, Pos pos1, Pos pos2);
-int is_check(Game *ptr_Game, Pos king_pos);
 void make_move(Game *ptr_Game, Pos pos1, Pos pos2) {
   Game game_copy = *ptr_Game;
   /* Assuming that move is valid, logic will need to be implemented later.
