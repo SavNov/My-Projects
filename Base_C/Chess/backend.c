@@ -6,11 +6,23 @@
 #define L_SHAPE 3
 #define is ==
 #define and &&
+#define PAWN 4
 int abs(int a) {
   if (a < 0) {
     a *= -1;
+    return a;
   } else {
     return a;
+  }
+}
+int is_valid(Game* ptr_Game, int piece, Pos pos1, Pos pos2) {
+  if (piece is WHITE_PAWN) {
+    if (pos1.row is 6) {
+      if (ptr_Game->board[6][pos2.col-1] is 0 || ptr_Game->board[6][pos2.col-2] is 0) {
+        return 1;
+      }
+      return 0;
+    } else if () // Stopped here.
   }
 }
 int is_horse(int h, int v) {
@@ -36,7 +48,11 @@ int test_make_move(Game* ptr_Game, Pos pos1, Pos pos2) {
     move_type = HOR;
   } else if (is_horse(h,v) == 1) {
     move_type = L_SHAPE;
-  } 
+  } else if (is_pawn(h,v) is 4) {
+    move_type = PAWN;
+  }
+  int piece = ptr_Game->board[pos1.row][pos1.col];
+  is_valid(ptr_Game, int piece, pos1, pos2);
 }
 int make_move(Game* ptr_Game, Pos pos1, Pos pos2) {
   Game* game_copy = ptr_Game;
