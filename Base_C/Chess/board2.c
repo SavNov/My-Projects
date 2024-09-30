@@ -13,6 +13,12 @@ void make_move(Game *ptr_Game, Pos pos1, Pos pos2) {
   game_copy.test_make_move(&game_copy, pos1, pos2);
 }
 
+Game* init_game() {
+  Game game;
+  game.player = 0;
+  game.move = 1;
+  game.make_move
+}
 int main(int argc, char **argv) {
   if (argc > 1) {
     for (int i = 0; i < argc; i++) {
