@@ -1,5 +1,6 @@
-from re import X
 import pygame
+
+import backend as board
 
 pygame.init()
 
@@ -9,6 +10,7 @@ square_height = screen_height // 8
 square_width = screen_width // 8
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("My Game")
+game_board = board.Board()
 
 def is_in_grid(x, y):
     row = 0
@@ -24,11 +26,32 @@ def is_in_grid(x, y):
             identified_y = True
     return row,col
 running = True
-background = pygame.image.load("./chessboard.png")
+background = pygame.image.load("./background.png")
 background = pygame.transform.scale(background, (screen_width, screen_height))
 black_pawn = pygame.image.load("black_pawn.png")
 black_pawn = pygame.transform.scale(black_pawn, (square_width, square_height))
-
+black_king = pygame.image.load("black_king.png")
+black_king = pygame.transform.scale(black_king, (square_width, square_height))
+black_queen = pygame.image.load("black_queen.png")
+black_queen = pygame.transform.scale(black_queen, (square_width, square_height))
+black_rook = pygame.image.load("black_rook.png")
+black_rook = pygame.transform.scale(black_rook, (square_width, square_height))
+black_knight = pygame.image.load("black_knight.png")
+black_knight = pygame.transform.scale(black_knight, (square_width, square_height))
+black_bishop = pygame.image.load("black_bishop.png")
+black_bishop = pygame.transform.scale(black_bishop, (square_width, square_height))
+white_pawn = pygame.image.load("white_pawn.png")
+white_pawn = pygame.transform.scale(white_pawn, (square_width, square_height))
+white_king = pygame.image.load("white_king.png")
+white_king = pygame.transform.scale(white_king, (square_width, square_height))
+white_queen = pygame.image.load("white_queen.png")
+white_queen = pygame.transform.scale(white_queen, (square_width, square_height))
+white_rook = pygame.image.load("white_rook.png")
+white_rook = pygame.transform.scale(white_rook, (square_width, square_height))
+white_knight = pygame.image.load("white_knight.png")
+white_knight = pygame.transform.scale(white_knight, (square_width, square_height))
+white_bishop = pygame.image.load("white_bishop.png")
+white_bishop = pygame.transform.scale(white_bishop, (square_width, square_height))
 class Piece(pygame.sprite.Sprite):
     def __init__(self, icon, x, y):
         super().__init__()
@@ -45,6 +68,7 @@ class Piece(pygame.sprite.Sprite):
                     self.dragging = True
                     self.initial_x = self.rect.x
                     self.initial_y = self.rect.y
+                    self.valid = True
                     mouse_x, mouse_y = event.pos
                     self.offset_x = self.rect.x - mouse_x
                     self.offset_y = self.rect.y - mouse_y
@@ -52,7 +76,10 @@ class Piece(pygame.sprite.Sprite):
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     mouse_x, mouse_y = event.pos
-                    self.rect.x, self.rect.y = ((mouse_x // 100) * 100), ((mouse_y // 100) * 100)
+                    if self.valid:
+                        self.rect.x, self.rect.y = ((mouse_x // 100) * 100), ((mouse_y // 100) * 100)
+                    if not self.valid:
+                        self.rect.x, self.rect.y = self.initial_x, self.initial_y
                     self.dragging = False
 
             elif event.type == pygame.MOUSEMOTION:
@@ -63,11 +90,36 @@ class Piece(pygame.sprite.Sprite):
 
 sprites = pygame.sprite.Group()
 
-a7bp = Piece(black_pawn, 0 * square_width, 7 * square_height)
-b7bp = Piece(black_pawn, 1 * square_width, 7 * square_height)
-c7bp = Piece(black_pawn, 2 * square_width, 7 * square_height)
-d7bp = Piece(black_pawn, 3 * square_width, 7 * square_height)
-sprites.add(a7bp, b7bp, c7bp, d7bp)
+for i in range(0, 8):
+    for j in range(0, 8):
+        pos = game_board[i,j]
+        if (pos == board.WHITE_PAWN):
+            sprites.add(Piece(white_pawn, j * square_width, i * square_height));
+        if (pos == board.WHITE_BISHOP):
+            sprites.add(Piece(white_bishop, j * square_width, i * square_height));
+        if (pos == board.WHITE_KING):
+            sprites.add(Piece(white_king, j * square_width, i * square_height));
+        if (pos == board.WHITE_ROOK):
+            sprites.add(Piece(white_rook, j * square_width, i * square_height));
+        if (pos == board.WHITE_QUEEN):
+            sprites.add(Piece(white_queen, j * square_width, i * square_height));
+        if (pos == board.WHITE_KNIGHT):
+            sprites.add(Piece(white_knight, j * square_width, i * square_height));
+        if (pos == board.BLACK_PAWN):
+            sprites.add(Piece(black_pawn, j * square_width, i * square_height));
+        if (pos == board.BLACK_BISHOP):
+            sprites.add(Piece(black_bishop, j * square_width, i * square_height));
+        if (pos == board.BLACK_KING):
+            sprites.add(Piece(black_king, j * square_width, i * square_height));
+        if (pos == board.BLACK_ROOK):
+            sprites.add(Piece(black_rook, j * square_width, i * square_height));
+        if (pos == board.BLACK_QUEEN):
+            sprites.add(Piece(black_queen, j * square_width, i * square_height));
+        if (pos == board.BLACK_KNIGHT):
+            sprites.add(Piece(black_knight, j * square_width, i * square_height));
+
+
+
 selected_piece = None
 
 while running:

@@ -1,5 +1,3 @@
-#include "pybind11/pybind11.h"
-#include <pybind11/detail/common.h>
 #define PIECES_H
 #define EMPTY 0
 #define WHITE_PAWN 1
@@ -19,7 +17,7 @@ class Board {
   private:
     int turn = 0;
   public:
-  int board[8][8] = {
+    int board[8][8] = {
     {BLACK_ROOK, BLACK_KNIGHT, BLACK_BISHOP,BLACK_QUEEN,BLACK_KING,BLACK_BISHOP,BLACK_KNIGHT,BLACK_ROOK},
     {BLACK_PAWN,BLACK_PAWN,BLACK_PAWN,BLACK_PAWN,BLACK_PAWN,BLACK_PAWN,BLACK_PAWN,BLACK_PAWN},
     {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
@@ -91,14 +89,29 @@ class Board {
         if (init < 7) {
           return 0;
         }
+        switch (init) {
+          case BLACK_PAWN:
+            if (initrow == 6 && finalrow > 3 && finalrow != 0) {
+              if (final > 0 && final < 7 && (coldiff == 1)) {
+                return 1;
+              }
+              if (final == 0 && coldiff == 0) {
+                return 1;
+              }
+              return 0;
+            }
+            if (initrow < 6 && rowdiff == 1 && finalrow != 7) {
+              if (final > 0) {
+                return 0;
+              }
+              return 1;
+            }
+            return 0;
+        }
     }
   }
 };
 
-PYBIND11_MODULE(board,m) {
-  pybind11::class_<Board>(m, "Board")
-    .def(py::init<void>())
-}
 int main (void) {
   return 0;
 }
